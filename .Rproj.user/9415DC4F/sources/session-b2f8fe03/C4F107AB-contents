@@ -1,0 +1,34 @@
+library(rStrava)
+library(dplyr)
+library(lubridate)
+library(readr)
+
+token_path <- "data/strava_token.rds"
+
+output_path <- "data/strava_activities.csv"
+
+if (!file.exists(token_path)) {
+  stop("❌ Strava token file not found. Authenticate manually first.")
+}
+
+
+stoken <- readRDS(token_path)
+
+acts <- get_activity_list(stoken)
+df <- compile_activities(acts)
+
+clean_df <- df %>%
+  mutate(
+    date = as.Date(start_date_local),
+    distance_miles = round(distance / 1609.34, 2),
+    moving_time_min = round(moving_time / 60, 1),
+    pace_min_mile = round(moving_time_min / distance_miles, 2),
+    activity_name = name
+  )
+
+write_csv(clean_df, output_path)
+
+recent <- clean_df %>%
+  arrange(desc(date)) %>%
+  slice(1)
+

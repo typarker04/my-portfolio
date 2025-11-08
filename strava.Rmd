@@ -1,0 +1,58 @@
+---
+title: "strava"
+output: html_document
+---
+
+```{r}
+install.packages('rStrava')
+library('rStrava')
+devtools::install_github("fawda123/rStrava")
+
+```
+
+
+```{r}
+app <- strava_oauth(
+  app_name = "Workout Predictor",
+  app_client_id = "184491",
+  app_secret = "705514dde6b9b41269122a7c0399cd86968528c2",
+  cache = TRUE,
+  app_scope = "activity:read_all"
+  )
+
+activities <- get_activity_list(app)
+activities_df = compile_activities(activities)
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+df <- activities_df %>%
+  select(start_date_local, distance, moving_time, average_heartrate, type) %>%
+  filter(activities_df$sport_type == "Run") %>% 
+  mutate(
+    date = as.Date(start_date_local),
+    pace = (moving_time/60) / distance
+  )
+
+ggplot(df, aes(x = date, y = pace, color = type)) +
+  geom_line() +
+  labs(title = "Workout Pace Over Time", y = "Pace (sec/m)", x = "Date") +
+  theme_minimal()
+```
+
+```{r}
+recent <- activities_df %>%
+  arrange(desc(start_date_local)) %>%
+  slice(1) %>%
+  mutate(
+    distance_miles = round(distance*1000/1609, 2),
+    moving_time_min = round(moving_time / 60, 1),
+    date = as.Date(start_date_local)
+  ) %>% 
+  select(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)
+
+recent
+```
+

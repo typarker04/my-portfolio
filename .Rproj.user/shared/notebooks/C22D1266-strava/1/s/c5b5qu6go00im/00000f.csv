@@ -1,0 +1,6 @@
+"0","devtools::install_github(""fawda123/rStrava"")
+"
+"2","Error: Failed to install 'rStrava' from GitHub:
+  HTTP error 401.
+  Bad credentials
+"

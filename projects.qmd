@@ -1,0 +1,23 @@
+---
+title: "Projects"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+# Statistics Projects
+
+## 2022 World Cup Simulation
+Simulated entire 2022 FIFA World Cup using a Bradley-Terry Model based on data scraped from previous 10 year match results in R. Formulated group stage and knockout round simulations with visualizations and outcomes.
+
+[View Project](p2_tyler.html)
+
+## Baseball Pitch Sequencing Analysis
+Used data from 2024 MLB season to find out if pitch sequencing can have a positive effect on a pitcher's expected runs saved. 
+
+[View Project](project1--1-.html)
+
+## Strava Insights (My personal workout data)
+Gathered data from over a year's worth of workouts, including heart rate, pace, percieved exertion, and more. 
+
+[View Project]()
