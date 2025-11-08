@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>strava – Tyler Parker</title>
+<title>Untitled – Tyler Parker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">strava</h1>
+<h1 class="title">Untitled</h1>
 </div>
 
 
@@ -176,27 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('rStrava')</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'rStrava'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github("fawda123/rStrava")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>app <span class="ot">&lt;-</span> <span class="fu">strava_oauth</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">app_name =</span> <span class="st">"Workout Predictor"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">app_client_id =</span> <span class="st">"184491"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">app_secret =</span> <span class="st">"705514dde6b9b41269122a7c0399cd86968528c2"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cache =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">app_scope =</span> <span class="st">"activity:read_all"</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>activities <span class="ot">&lt;-</span> <span class="fu">get_activity_list</span>(app)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Auto-refreshing stale OAuth token.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>activities_df <span class="ot">=</span> <span class="fu">compile_activities</span>(activities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/update_strava_data.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -211,45 +191,29 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_date_local, distance, moving_time, average_heartrate, type) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(activities_df<span class="sc">$</span>sport_type <span class="sc">==</span> <span class="st">"Run"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local),</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pace =</span> (moving_time<span class="sc">/</span><span class="dv">60</span>) <span class="sc">/</span> distance</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> pace, <span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Workout Pace Over Time"</span>, <span class="at">y =</span> <span class="st">"Pace (sec/m)"</span>, <span class="at">x =</span> <span class="st">"Date"</span>) <span class="sc">+</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="strava_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>🔁 Loaded existing token from 'data/strava_token.rds'</code></pre>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>recent <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(start_date_local)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">distance_miles =</span> <span class="fu">round</span>(distance<span class="sc">*</span><span class="dv">1000</span><span class="sc">/</span><span class="dv">1609</span>, <span class="dv">2</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">moving_time_min =</span> <span class="fu">round</span>(moving_time <span class="sc">/</span> <span class="dv">60</span>, <span class="dv">1</span>),</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>recent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        date distance_miles moving_time_min average_heartrate type
-1 2025-11-07           4.35            35.6             156.6  Run
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     map.summary_polyline
-1 ew{eGlbs`Pm@VKUMEGIOiAUy@KSo@aAIKEAOYc@uAS_@KGEK?IEOK_ACc@?wDJoAE[Dc@FiCCYBmAEg@Ly@Zk@n@u@v@oAh@k@LYh@{@`@_@b@y@bAqA^u@bAuAP_@~@wADGJ@HJTj@Vf@LLnBxCHFZn@TRRCPJp@lAn@dALXZ`@~@~Ad@n@L^TZ\\d@b@v@bArAP\\t@hAPEZc@Ra@f@o@Ra@VYh@{@NMd@o@j@aAV_@d@k@^o@d@e@JCP@bAd@x@h@fAf@\\T\\ZNV^x@Tv@Hl@@fAYdC?Nd@t@VLZf@VTVd@DXAVGV[~@Wh@c@rAo@|BQbAShC@dDHxAH`@r@fAXZlAbANHXHNFJP@VAdCFtBHn@ZZHBb@`@TDN?XKNAn@DzDE|B@l@CH@r@@d@APCVIxFaEtAw@n@g@d@g@NGH?DBFJ\\pAJTD`@ZSHL\\ZZHRCT@PJHTF\\?n@Ij@Ap@EVGTKNgAv@gAz@cAn@WVu@f@CF`@fALb@v@xB`@rAt@tB@LS`@FXAHS\\WJs@FmA@Q@KB{@D{BEk@G]@]Cg@@aAEw@Bq@E{@HwBC_ABUCa@BsACw@BoC?cCBmBCo@@c@AUBw@C[@uACK@q@?c@Dq@AW@c@AsA@k@E_DFSCc@@q@E]B_ACYBWAI[OIW?KEMe@SaCGwA@sABo@Ho@x@eEZiAHIJS^}Af@yA@GIa@O]MHGNYDeAFm@As@GW@y@GWIMMEM?YF_AAq@Dc@?[Ci@DsDGKc@@QDSCEC[_BIs@IAKBU@aACICg@EEFSBmAKQBQ?u@G</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>📡 Fetching recent Strava activities...</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Auto-refreshing stale OAuth token.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>✅ Saved 405 activities to 'data/strava_activities.csv'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>🏃 Most recent activity: Run — 4.35 miles in 35.6 min on 2025-11-07.</code></pre>
 </div>
 </div>
 

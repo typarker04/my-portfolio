@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Tyler’s Portfolio",
     "section": "",
-    "text": "── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+    "text": "Run — 4.35 miles in 35.6 minutes on 2025-11-07."
   },
   {
     "objectID": "about.html",
@@ -45,7 +45,21 @@
     "objectID": "index.html#my-most-recent-workout",
     "href": "index.html#my-most-recent-workout",
     "title": "Tyler’s Portfolio",
-    "section": "My Most Recent Workout",
-    "text": "My Most Recent Workout\n\nlibrary(readr)\nlibrary(dplyr)\nlibrary(glue)\nlibrary(rStrava)\n\nworkouts &lt;- read_csv(\"data/strava_activities.csv\")\n\nRows: 405 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (2): activity_name, type\ndbl  (3): distance_miles, moving_time_min, pace_min_mile\ndate (1): date\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nrecent &lt;- workouts %&gt;%\n  arrange(desc(date)) %&gt;%\n  slice(1)\n\nglue(\"**{recent$type}** — {recent$distance_miles} miles in {recent$moving_time_min} minutes on {recent$date}.\")\n\n**Run** — 4.35 miles in 35.6 minutes on 2025-11-07."
+    "section": "",
+    "text": "Run — 4.35 miles in 35.6 minutes on 2025-11-07."
+  },
+  {
+    "objectID": "Untitled.html",
+    "href": "Untitled.html",
+    "title": "Untitled",
+    "section": "",
+    "text": "source(\"R/update_strava_data.R\")\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\n\nAttaching package: 'lubridate'\n\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n\n\n🔁 Loaded existing token from 'data/strava_token.rds'\n\n\n📡 Fetching recent Strava activities...\n\n\nAuto-refreshing stale OAuth token.\n\n\n✅ Saved 405 activities to 'data/strava_activities.csv'\n\n\n🏃 Most recent activity: Run — 4.35 miles in 35.6 min on 2025-11-07."
+  },
+  {
+    "objectID": "strava.html",
+    "href": "strava.html",
+    "title": "strava",
+    "section": "",
+    "text": "#install.packages('rStrava')\nlibrary('rStrava')\n#devtools::install_github(\"fawda123/rStrava\")\n\n\napp &lt;- strava_oauth(\n  app_name = \"Workout Predictor\",\n  app_client_id = \"184491\",\n  app_secret = \"705514dde6b9b41269122a7c0399cd86968528c2\",\n  cache = TRUE,\n  app_scope = \"activity:read_all\"\n  )\n\nactivities &lt;- get_activity_list(app)\n\nAuto-refreshing stale OAuth token.\n\nactivities_df = compile_activities(activities)\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)\n\ndf &lt;- activities_df %&gt;%\n  select(start_date_local, distance, moving_time, average_heartrate, type) %&gt;%\n  filter(activities_df$sport_type == \"Run\") %&gt;% \n  mutate(\n    date = as.Date(start_date_local),\n    pace = (moving_time/60) / distance\n  )\n\nggplot(df, aes(x = date, y = pace, color = type)) +\n  geom_line() +\n  labs(title = \"Workout Pace Over Time\", y = \"Pace (sec/m)\", x = \"Date\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\nrecent &lt;- activities_df %&gt;%\n  arrange(desc(start_date_local)) %&gt;%\n  slice(1) %&gt;%\n  mutate(\n    distance_miles = round(distance*1000/1609, 2),\n    moving_time_min = round(moving_time / 60, 1),\n    date = as.Date(start_date_local)\n  ) %&gt;% \n  select(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)\n\nrecent\n\n        date distance_miles moving_time_min average_heartrate type\n1 2025-11-07           4.35            35.6             156.6  Run\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     map.summary_polyline\n1 ew{eGlbs`Pm@VKUMEGIOiAUy@KSo@aAIKEAOYc@uAS_@KGEK?IEOK_ACc@?wDJoAE[Dc@FiCCYBmAEg@Ly@Zk@n@u@v@oAh@k@LYh@{@`@_@b@y@bAqA^u@bAuAP_@~@wADGJ@HJTj@Vf@LLnBxCHFZn@TRRCPJp@lAn@dALXZ`@~@~Ad@n@L^TZ\\\\d@b@v@bArAP\\\\t@hAPEZc@Ra@f@o@Ra@VYh@{@NMd@o@j@aAV_@d@k@^o@d@e@JCP@bAd@x@h@fAf@\\\\T\\\\ZNV^x@Tv@Hl@@fAYdC?Nd@t@VLZf@VTVd@DXAVGV[~@Wh@c@rAo@|BQbAShC@dDHxAH`@r@fAXZlAbANHXHNFJP@VAdCFtBHn@ZZHBb@`@TDN?XKNAn@DzDE|B@l@CH@r@@d@APCVIxFaEtAw@n@g@d@g@NGH?DBFJ\\\\pAJTD`@ZSHL\\\\ZZHRCT@PJHTF\\\\?n@Ij@Ap@EVGTKNgAv@gAz@cAn@WVu@f@CF`@fALb@v@xB`@rAt@tB@LS`@FXAHS\\\\WJs@FmA@Q@KB{@D{BEk@G]@]Cg@@aAEw@Bq@E{@HwBC_ABUCa@BsACw@BoC?cCBmBCo@@c@AUBw@C[@uACK@q@?c@Dq@AW@c@AsA@k@E_DFSCc@@q@E]B_ACYBWAI[OIW?KEMe@SaCGwA@sABo@Ho@x@eEZiAHIJS^}Af@yA@GIa@O]MHGNYDeAFm@As@GW@y@GWIMMEM?YF_AAq@Dc@?[Ci@DsDGKc@@QDSCEC[_BIs@IAKBU@aACICg@EEFSBmAKQBQ?u@G"
   }
 ]

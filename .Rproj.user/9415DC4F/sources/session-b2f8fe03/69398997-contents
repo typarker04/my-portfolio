@@ -1,9 +1,0 @@
----
-title: "Untitled"
-output: html_document
----
-
-```{r}
-source("R/update_strava_data.R")
-```
-

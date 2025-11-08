@@ -2,28 +2,24 @@
 title: "Tyler's Portfolio"
 ---
 
-```{r echo=FALSE}
+```{r include=FALSE}
 library(tidyverse)
-
-
-
-```
-
-## My Most Recent Workout
-
-```{r}
 library(readr)
 library(dplyr)
 library(glue)
 library(rStrava)
+```
 
+## My Most Recent Workout
+
+```{r echo=FALSE, message=FALSE}
 workouts <- read_csv("data/strava_activities.csv")
 
 recent <- workouts %>%
   arrange(desc(date)) %>%
   slice(1)
 
-glue("**{recent$type}** — {recent$distance_miles} miles in {recent$moving_time_min} minutes on {recent$date}.")
+glue("{recent$type} — {recent$distance_miles} miles in {recent$moving_time_min} minutes on {recent$date}.")
 
 ```
 

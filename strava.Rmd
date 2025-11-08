@@ -4,9 +4,9 @@ output: html_document
 ---
 
 ```{r}
-install.packages('rStrava')
+#install.packages('rStrava')
 library('rStrava')
-devtools::install_github("fawda123/rStrava")
+#devtools::install_github("fawda123/rStrava")
 
 ```
 
