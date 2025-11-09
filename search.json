@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "Untitled.html",
+    "href": "Untitled.html",
+    "title": "Untitled",
+    "section": "",
+    "text": "source(\"R/update_strava_data.R\")\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\n\nAttaching package: 'lubridate'\n\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n\n\n🔁 Loaded existing token from 'data/strava_token.rds'\n\n\n📡 Fetching recent Strava activities...\n\n\nAuto-refreshing stale OAuth token.\n\n\n✅ Saved 406 activities to 'data/strava_activities.csv'\n\n\n🏃 Most recent activity: Run — 2.19 miles in 20 min on 2025-11-08."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Tyler’s Portfolio",
+    "section": "",
+    "text": "**Most recent activity:** Lunch Run on 20400 \n\n\nType: Run \n\n\nDistance: 2.19 mi\n\n\nSpeed: 9.1 min/mi\n\n\nWarning in geom_line(fill = \"steelblue\"): Ignoring unknown parameters: `fill`"
+  },
+  {
+    "objectID": "index.html#my-most-recent-workout",
+    "href": "index.html#my-most-recent-workout",
+    "title": "Tyler’s Portfolio",
+    "section": "",
+    "text": "**Most recent activity:** Lunch Run on 20400 \n\n\nType: Run \n\n\nDistance: 2.19 mi\n\n\nSpeed: 9.1 min/mi\n\n\nWarning in geom_line(fill = \"steelblue\"): Ignoring unknown parameters: `fill`"
+  },
+  {
+    "objectID": "strava.html",
+    "href": "strava.html",
+    "title": "strava",
+    "section": "",
+    "text": "#install.packages('rStrava')\nlibrary('rStrava')\n#devtools::install_github(\"fawda123/rStrava\")\n\n\napp &lt;- strava_oauth(\n  app_name = \"Workout Predictor\",\n  app_client_id = \"184491\",\n  app_secret = \"705514dde6b9b41269122a7c0399cd86968528c2\",\n  cache = TRUE,\n  app_scope = \"activity:read_all\"\n  )\n\nactivities &lt;- get_activity_list(app)\nactivities_df = compile_activities(activities)\n\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)\n\ndf &lt;- activities_df %&gt;%\n  select(start_date_local, distance, moving_time, average_heartrate, type) %&gt;%\n  filter(activities_df$sport_type == \"Run\") %&gt;% \n  mutate(\n    date = as.Date(start_date_local),\n    pace = (moving_time/60) / distance\n  )\n\nggplot(df, aes(x = date, y = pace, color = type)) +\n  geom_line() +\n  labs(title = \"Workout Pace Over Time\", y = \"Pace (sec/m)\", x = \"Date\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\nrecent &lt;- activities_df %&gt;%\n  arrange(desc(start_date_local)) %&gt;%\n  slice(1) %&gt;%\n  mutate(\n    distance_miles = round(distance*1000/1609, 2),\n    moving_time_min = round(moving_time / 60, 1),\n    date = as.Date(start_date_local)\n  ) %&gt;% \n  select(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)\n\nrecent\n\n        date distance_miles moving_time_min average_heartrate type\n1 2025-11-08           2.19              20             140.6  Run\n                                                                                                                                                                                                                                                                                                                                                                                                                       map.summary_polyline\n1 kz{eG`cs`PHEDBZCXBVIDKBUA]Hu@Cm@D{@E{@?GPg@PIT?THFHHCVa@Zs@HIRGTOp@u@LUHW`@g@XYR_@bAsAr@kAb@g@~@yA`@i@DCLCPh@Tb@Xd@PRVb@XZt@vAv@`A`A~A`AfBZ^NZp@dAMhA[jA[zAIf@[rAOv@?TO^Mt@Ad@GXS|@Wn@Sn@Y|AQj@QlAa@vASlAoA~EM~@YrAIt@EnAFdCTjBNj@Br@T~A\\\\dBBp@@b@CD_BAYBUCe@@SC_@De@Aa@B{B@UAY@IMBeAEiD@a@Fi@C[@_@Cc@?U@{@Fi@Ce@@]CMEeA?]CWDk@BsBH_@A]Bs@Aq@@I@mAAuBD_AEcBDyAA_DFsC?aAEUBKEg@DeA@aDD{A?[EWa@i@O?WNe@p@SRG@WEM@UFQNGTEr@Ar@Gf@DzA?p@a@@YH"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Simulated entire 2022 FIFA World Cup using a Bradley-Terry Model based on data scraped from previous 10 year match results in R. Formulated group stage and knockout round simulations with visualizations and outcomes.\nView Project\n\n\n\nUsed data from 2024 MLB season to find out if pitch sequencing can have a positive effect on a pitcher’s expected runs saved.\nView Project\n\n\n\nGathered data from over a year’s worth of workouts, including heart rate, pace, percieved exertion, and more.\nView Project"
+  },
+  {
+    "objectID": "projects.html#world-cup-simulation",
+    "href": "projects.html#world-cup-simulation",
+    "title": "Projects",
+    "section": "",
+    "text": "Simulated entire 2022 FIFA World Cup using a Bradley-Terry Model based on data scraped from previous 10 year match results in R. Formulated group stage and knockout round simulations with visualizations and outcomes.\nView Project"
+  },
+  {
+    "objectID": "projects.html#baseball-pitch-sequencing-analysis",
+    "href": "projects.html#baseball-pitch-sequencing-analysis",
+    "title": "Projects",
+    "section": "",
+    "text": "Used data from 2024 MLB season to find out if pitch sequencing can have a positive effect on a pitcher’s expected runs saved.\nView Project"
+  },
+  {
+    "objectID": "projects.html#strava-insights-my-personal-workout-data",
+    "href": "projects.html#strava-insights-my-personal-workout-data",
+    "title": "Projects",
+    "section": "",
+    "text": "Gathered data from over a year’s worth of workouts, including heart rate, pace, percieved exertion, and more.\nView Project"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I am currently a Junior at the University of Wisconsin-Madison studying Data Science and Economics. This is a place for me to showcase my projects I have been working on in my free time and in class."
+  }
+]
