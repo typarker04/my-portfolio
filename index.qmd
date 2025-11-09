@@ -8,6 +8,7 @@ library(readr)
 library(dplyr)
 library(glue)
 library(rStrava)
+library(ggplot2)
 ```
 
 ## My Most Recent Workout
@@ -15,11 +16,19 @@ library(rStrava)
 ```{r echo=FALSE, message=FALSE}
 workouts <- read_csv("data/strava_activities.csv")
 
-recent <- workouts %>%
+latest <- workouts %>%
   arrange(desc(date)) %>%
   slice(1)
 
-glue("{recent$type} — {recent$distance_miles} miles in {recent$moving_time_min} minutes on {recent$date}.")
+cat("**Most recent activity:**", latest$activity_name, "on", as.Date(latest$date), "\n")
+cat("Type:", latest$type, "\n")
+cat("Distance:", round(latest$distance_miles, 2), "mi\n")
+cat("Speed:", round(latest$pace_min_mile, 1), "min/mi\n")
+
+# Simple chart
+ggplot(workouts, aes(x = date, y = distance_miles)) +
+  geom_line(fill = "steelblue") +
+  labs(title = "Recent Workouts", x = "Date", y = "Distance (km)")
 
 ```
 

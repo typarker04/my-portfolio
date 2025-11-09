@@ -189,14 +189,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">app_scope =</span> <span class="st">"activity:read_all"</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>activities <span class="ot">&lt;-</span> <span class="fu">get_activity_list</span>(app)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Auto-refreshing stale OAuth token.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>activities_df <span class="ot">=</span> <span class="fu">compile_activities</span>(activities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>activities <span class="ot">&lt;-</span> <span class="fu">get_activity_list</span>(app)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>activities_df <span class="ot">=</span> <span class="fu">compile_activities</span>(activities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
@@ -211,20 +208,20 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_date_local, distance, moving_time, average_heartrate, type) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(activities_df<span class="sc">$</span>sport_type <span class="sc">==</span> <span class="st">"Run"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local),</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pace =</span> (moving_time<span class="sc">/</span><span class="dv">60</span>) <span class="sc">/</span> distance</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> pace, <span class="at">color =</span> type)) <span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Workout Pace Over Time"</span>, <span class="at">y =</span> <span class="st">"Pace (sec/m)"</span>, <span class="at">x =</span> <span class="st">"Date"</span>) <span class="sc">+</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_date_local, distance, moving_time, average_heartrate, type) <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(activities_df<span class="sc">$</span>sport_type <span class="sc">==</span> <span class="st">"Run"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pace =</span> (moving_time<span class="sc">/</span><span class="dv">60</span>) <span class="sc">/</span> distance</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> pace, <span class="at">color =</span> type)) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Workout Pace Over Time"</span>, <span class="at">y =</span> <span class="st">"Pace (sec/m)"</span>, <span class="at">x =</span> <span class="st">"Date"</span>) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -234,22 +231,22 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>recent <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(start_date_local)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">distance_miles =</span> <span class="fu">round</span>(distance<span class="sc">*</span><span class="dv">1000</span><span class="sc">/</span><span class="dv">1609</span>, <span class="dv">2</span>),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">moving_time_min =</span> <span class="fu">round</span>(moving_time <span class="sc">/</span> <span class="dv">60</span>, <span class="dv">1</span>),</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>recent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>recent <span class="ot">&lt;-</span> activities_df <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(start_date_local)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">distance_miles =</span> <span class="fu">round</span>(distance<span class="sc">*</span><span class="dv">1000</span><span class="sc">/</span><span class="dv">1609</span>, <span class="dv">2</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">moving_time_min =</span> <span class="fu">round</span>(moving_time <span class="sc">/</span> <span class="dv">60</span>, <span class="dv">1</span>),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">as.Date</span>(start_date_local)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, distance_miles, moving_time_min, average_heartrate, type, map.summary_polyline)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>recent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        date distance_miles moving_time_min average_heartrate type
-1 2025-11-07           4.35            35.6             156.6  Run
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     map.summary_polyline
-1 ew{eGlbs`Pm@VKUMEGIOiAUy@KSo@aAIKEAOYc@uAS_@KGEK?IEOK_ACc@?wDJoAE[Dc@FiCCYBmAEg@Ly@Zk@n@u@v@oAh@k@LYh@{@`@_@b@y@bAqA^u@bAuAP_@~@wADGJ@HJTj@Vf@LLnBxCHFZn@TRRCPJp@lAn@dALXZ`@~@~Ad@n@L^TZ\\d@b@v@bArAP\\t@hAPEZc@Ra@f@o@Ra@VYh@{@NMd@o@j@aAV_@d@k@^o@d@e@JCP@bAd@x@h@fAf@\\T\\ZNV^x@Tv@Hl@@fAYdC?Nd@t@VLZf@VTVd@DXAVGV[~@Wh@c@rAo@|BQbAShC@dDHxAH`@r@fAXZlAbANHXHNFJP@VAdCFtBHn@ZZHBb@`@TDN?XKNAn@DzDE|B@l@CH@r@@d@APCVIxFaEtAw@n@g@d@g@NGH?DBFJ\\pAJTD`@ZSHL\\ZZHRCT@PJHTF\\?n@Ij@Ap@EVGTKNgAv@gAz@cAn@WVu@f@CF`@fALb@v@xB`@rAt@tB@LS`@FXAHS\\WJs@FmA@Q@KB{@D{BEk@G]@]Cg@@aAEw@Bq@E{@HwBC_ABUCa@BsACw@BoC?cCBmBCo@@c@AUBw@C[@uACK@q@?c@Dq@AW@c@AsA@k@E_DFSCc@@q@E]B_ACYBWAI[OIW?KEMe@SaCGwA@sABo@Ho@x@eEZiAHIJS^}Af@yA@GIa@O]MHGNYDeAFm@As@GW@y@GWIMMEM?YF_AAq@Dc@?[Ci@DsDGKc@@QDSCEC[_BIs@IAKBU@aACICg@EEFSBmAKQBQ?u@G</code></pre>
+1 2025-11-08           2.19              20             140.6  Run
+                                                                                                                                                                                                                                                                                                                                                                                                                       map.summary_polyline
+1 kz{eG`cs`PHEDBZCXBVIDKBUA]Hu@Cm@D{@E{@?GPg@PIT?THFHHCVa@Zs@HIRGTOp@u@LUHW`@g@XYR_@bAsAr@kAb@g@~@yA`@i@DCLCPh@Tb@Xd@PRVb@XZt@vAv@`A`A~A`AfBZ^NZp@dAMhA[jA[zAIf@[rAOv@?TO^Mt@Ad@GXS|@Wn@Sn@Y|AQj@QlAa@vASlAoA~EM~@YrAIt@EnAFdCTjBNj@Br@T~A\\dBBp@@b@CD_BAYBUCe@@SC_@De@Aa@B{B@UAY@IMBeAEiD@a@Fi@C[@_@Cc@?U@{@Fi@Ce@@]CMEeA?]CWDk@BsBH_@A]Bs@Aq@@I@mAAuBD_AEcBDyAA_DFsC?aAEUBKEg@DeA@aDD{A?[EWa@i@O?WNe@p@SRG@WEM@UFQNGTEr@Ar@Gf@DzA?p@a@@YH</code></pre>
 </div>
 </div>
 
